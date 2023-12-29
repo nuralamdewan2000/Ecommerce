@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            }
+
+     
+    </style>
+</head>
+<body>
+
+
+  <input id="name" type="text" placeholder="Enter your name">
+  <input id="email" placeholder="Enter your email">
+  <select name="course" id="course">
+    <option value="">Choose your course</option>
+    <option value="javascript">javascript</option>
+    <option value="dsa">dsa</option>
+    <option value="python">python</option>
+  </select>
+  <button id="btn">Send data</button>
+
+
+  <div id="container"></div>
+</body>
+
+<script>
+  let container = document.getElementById("container");
+  let inpt1 = document.getElementById("name");
+  let inpt2 = document.getElementById("email");
+  let select = document.getElementById("course");
+  let btn = document.getElementById("btn");
+
+  btn.addEventListener("click",()=>{
+    let name = inpt1.value;
+    let email = inpt2.value;
+    let course = select.value;
+    inpt1.value = "";
+    inpt2.value = ""
+
+    let userData = {
+      name,
+      email,
+      course
+    }
+
+    //check and access the user from local Storage
+    let user = JSON.parse(localStorage.getItem("user")) || [];
+    user.push(userData);
+    localStorage.setItem("user",JSON.stringify(user));
+    appendData(user);
+
+  })
+
+
+  function appendData(data){
+    container.innerHTML = ""
+    data.forEach(item => {
+      //create the card and append it to dom
+      let card = document.createElement("div");
+      card.className = "card";
+
+      let p1 = document.createElement("p");
+      p1.innerText = item.name;
+      let p2 = document.createElement("p");
+      p2.innerText = item.email;
+      let p3 = document.createElement("p");
+      p3.innerText = item.course;
+
+      card.append(p1,p2,p3);
+      container.append(card);
+    })
+  }
+
+  let user = JSON.parse(localStorage.getItem("user"));
+  appendData(user);
+
+
+</script>
+</html>
+
+
